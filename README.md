@@ -7,12 +7,15 @@ colour palette, syntax-highlighted code, and template-styled tables — out of t
 
 ## Install
 
-Add the theme **and the gsap addon** (the theme auto-enables the addon, but the
-deck must list it so it's installed and importable):
+Set up a Slidev deck as usual, then add this theme and the gsap addon as
+dependencies:
 
 ```bash
+pnpm create slidev          # the standard Slidev scaffolder (skip if you have a deck)
 pnpm add -D github:vmelisch/slidev-theme-db github:maxkurze1/slidev-addon-gsap
 ```
+
+Then point the deck at the theme in `slides.md`:
 
 ```yaml
 ---
@@ -20,13 +23,16 @@ theme: db          # short form; or the full name: slidev-theme-db
 ---
 ```
 
+```bash
+pnpm dev           # live preview at localhost:3030
+```
+
 That's all — **no `addons:` line needed**: the theme enables `slidev-addon-gsap`
 via its defaults, so `import { useTl } from 'slidev-addon-gsap'` works in any
 slide. The theme also sets `canvasWidth: 720` (1px == 1pt), Noto Sans, light
 scheme, and Comark on; override any in your own headmatter.
 
-> Easiest start: copy the `first-steps` starter deck, which already lists both
-> packages — then just `pnpm install`.
+> Prerequisite: Node.js, then enable pnpm once with `corepack enable pnpm`.
 
 ## Example deck
 
