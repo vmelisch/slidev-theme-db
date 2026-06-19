@@ -1,0 +1,32 @@
+{
+  "name": "slidev-theme-db",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Slidev theme cloning the TU Dresden / Dresden Database Research Group PowerPoint template",
+  "keywords": [
+    "slidev-theme",
+    "slidev"
+  ],
+  "engines": {
+    "slidev": ">=0.48.0"
+  },
+  "dependencies": {
+    "shiki": "^4.2.0",
+    "slidev-addon-gsap": "github:maxkurze1/slidev-addon-gsap"
+  },
+  "slidev": {
+    "defaults": {
+      "addons": [
+        "slidev-addon-gsap"
+      ],
+      "canvasWidth": 720,
+      "colorSchema": "light",
+      "comark": true,
+      "fonts": {
+        "sans": "Noto Sans",
+        "weights": "400,500,700",
+        "provider": "google"
+      }
+    }
+  }
+}
