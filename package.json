@@ -11,8 +11,7 @@
     "slidev": ">=0.48.0"
   },
   "dependencies": {
-    "shiki": "^4.2.0",
-    "slidev-addon-gsap": "github:maxkurze1/slidev-addon-gsap"
+    "shiki": "^4.2.0"
   },
   "slidev": {
     "defaults": {
