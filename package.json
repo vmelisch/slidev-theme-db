@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@slidev/cli": "^52.16.0",
+    "@slidev/parser": "^52.16.0",
     "slidev-addon-gsap": "link:../slidev-addon-gsap",
     "vue": "^3.5.38"
   },
@@ -31,6 +32,7 @@
       "canvasWidth": 720,
       "colorSchema": "light",
       "comark": true,
+      "transition": "slide-fade-left | slide-fade-right",
       "fonts": {
         "sans": "Noto Sans",
         "weights": "400,500,700",

@@ -45,9 +45,15 @@
 /* Inline code "pills": slimmer so they don't bloat line height in bullets.
    (Slidev default is ~2px 6px / 0.9em.) Fenced code (pre > code) is untouched. */
 .slidev-layout.db-default :not(pre) > code {
-  padding: 1px 4px;   /* tiny top/bottom (inline padding doesn't grow line height), tighter sides */
+  padding: 1px 0;     /* no horizontal padding by default so it sits flush with text */
   font-size: 0.85em;
   line-height: 1;
+  background: transparent !important; /* transparent by default */
+}
+/* Opt-in faint background for inline code */
+.slidev-layout.db-default :not(pre) > code.with-bg {
+  padding: 1px 4px;   /* add horizontal padding back for the background box */
+  background: rgba(0, 0, 0, 0.03) !important;
 }
 
 .slidev-layout a {
@@ -140,6 +146,7 @@
   margin: 0.4em 0;
   padding: 0;
   border: none;
+  background: transparent;
   font-style: italic;
   color: var(--db-text);   /* muted grey */
 }
@@ -159,6 +166,14 @@
 .slidev-layout.db-default .slidev-code-wrapper {
   width: fit-content;
   max-width: 100%;
+}
+/* Default to transparent background for multi-line blocks, overriding Shiki */
+.slidev-layout.db-default pre.slidev-code {
+  background: transparent !important;
+}
+/* Opt-in faint background via ```lang {class:'with-bg'} */
+.slidev-layout.db-default .with-bg pre.slidev-code {
+  background: rgba(0, 0, 0, 0.03) !important;
 }
 /* Code sizing (Slidev defaults: 12px / 18px / 8px). Slightly smaller font and
    tighter vertical padding so the box hugs the code top and bottom. */
@@ -201,18 +216,34 @@
 /* Optional table captions (need Comark, enabled by this theme).
    ABOVE the table:  [Title]{.table-caption}     -> black, non-italic
    BELOW the table:  [Note]{.table-footer}       -> small italic, muted */
+.slidev-layout.db-default p:has(.table-caption),
+.slidev-layout.db-default p:has(.table-footer) {
+  display: block;
+}
+.slidev-layout.db-default .table-caption,
+.slidev-layout.db-default p:has(.table-caption),
+.slidev-layout.db-default .table-footer,
+.slidev-layout.db-default p:has(.table-footer) {
+  font-size: 11px;
+  background: transparent !important;
+}
 .slidev-layout.db-default .table-caption,
 .slidev-layout.db-default .table-footer {
-  display: block;
-  font-size: 11px;
+  display: inline !important; /* override UnoCSS table-caption utility */
 }
-.slidev-layout.db-default .table-caption {
+.slidev-layout.db-default .table-caption,
+.slidev-layout.db-default p:has(.table-caption) {
   color: var(--db-text-soft);     /* black, non-italic title above */
 }
-.slidev-layout.db-default .table-footer {
+.slidev-layout.db-default .table-footer,
+.slidev-layout.db-default p:has(.table-footer) {
   font-style: italic;             /* muted note below */
   color: var(--db-text);
   opacity: 0.85;
+}
+.slidev-layout.db-default .caption-label {
+  font-weight: bold;
+  font-style: normal;
 }
 /* sit tight against the table */
 .slidev-layout.db-default p:has(.table-caption) {

@@ -1,4 +1,5 @@
 import { createHighlighter } from 'shiki'
+import { setupTableCaptions } from './markdown'
 
 // Shipped WITH the theme: Slidev merges vite.config from every root (theme +
 // addons + deck), so installing this theme is enough — no need to copy a file.
@@ -25,6 +26,7 @@ export default async () => {
       markdown: {
         // runs after Slidev's own markdown-it plugins, so our rule wins
         markdownSetup(md: any) {
+          setupTableCaptions(md)
           const fallback = md.renderer.rules.code_inline
           md.renderer.rules.code_inline = (tokens: any[], idx: number, options: any, env: any, self: any) => {
             const m = String(tokens[idx].content).match(/^\{([\w-]+)\}\s+([\s\S]+)$/)

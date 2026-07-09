@@ -41,7 +41,7 @@ onMounted(() => {
   > *e.g.,* `{json} {"name": "Daniel Krueger", "salary": 4867}`
 - Array: ordered list of values
   > *e.g.,* `{json} ["Python", "SQL", "C++"]`
-- Values can be: string, number, `null`, object, array
+- Values can be: string, number, `null`{.with-bg}, object, array
 
 </div>
 
@@ -109,7 +109,7 @@ columns: 65fr 35fr
 | 3  | `{json} {"name":"Lukas Brandt", "salary": 3854, ...}` |
 | 4  | `{json} {"name":"Amelie Fischer", "salary": 5291, ...}` |
 
-[Tab. 1: Employees]{.table-footer}
+[Employees]{.table-footer .numbered}
 
 |           | json                    | jsonb                     |
 |:-:|:-:|:-:|
@@ -140,7 +140,7 @@ codeSize: 10px
   - `{sql} ->` returns `jsonb` (keeps JSON typing)
   - `{sql} ->>` returns `text` (plain value)
 
-```sql {lines:true}
+```sql {lines:true, class:'with-bg'}
 SELECT
   profile ->  'city' AS arrow1   -- "Dresden" (jsonb)
   profile ->> 'city' AS arrow2   -- Dresden (text)
@@ -329,3 +329,22 @@ const profile = { name: "Daniel Krueger", skills: ["Python", "SQL", "C++"] }
 console.log("skill count:", profile.skills.length)
 console.log("first skill:", profile.skills[0])
 ```
+
+---
+layout: default
+---
+
+# Table styles
+
+Here is an example of a table with a caption above and a footer below.
+
+[Database Engine Popularity]{.table-caption}
+| Rank | Engine | Score | Trend |
+| :---: | :--- | :---: | :---: |
+| 1 | PostgreSQL | 85.5 | ⬆️ |
+| 2 | MySQL | 79.2 | ⬇️ |
+| 3 | SQLite | 72.8 | ⬆️ |
+| 4 | Oracle | 68.4 | ⬇️ |
+
+[Based on the latest DB-Engines ranking]{.table-footer .numbered}
+
