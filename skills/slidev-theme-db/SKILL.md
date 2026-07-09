@@ -7,9 +7,10 @@ description: >-
   template. Covers the layouts (cover, default, two-cols-header, two-cols-grid),
   heading/sub-header spacing, lists, inline `{lang}` code highlighting, fenced
   code blocks (captions, per-slide/per-block size, line numbers), template-styled
-  tables (captions, equal/reach width helpers), the Comark curly-brace gotcha,
-  and design tokens. Use whenever writing or modifying slides for a `theme: db`
-  deck, or when asked about its layouts, tables, code styling, or colours.
+  tables (captions, equal/reach width helpers), Mermaid diagrams (brand styling
+  and per-click reveal via gsap), the Comark curly-brace gotcha, and design
+  tokens. Use whenever writing or modifying slides for a `theme: db` deck, or when
+  asked about its layouts, tables, code styling, diagrams, or colours.
 ---
 
 # slidev-theme-db
@@ -63,6 +64,11 @@ layout: cover            # "Titelfolie": navy band (vector mosaic + logos) + tit
 # Big title
 Subtitle line (the paragraph right after the H1)
 ```
+
+> ⚠️ **The first slide defaults to `layout: cover`** when no `layout:` is given
+> (Slidev behaviour) — so it gets the navy DDRG banner. If your opening slide is
+> content (a query, a diagram…), set `layout: default` explicitly in the
+> headmatter, or its content is squashed under the cover band.
 
 ```yaml
 layout: default          # "Titel und Inhalt": title + single content column
@@ -162,6 +168,69 @@ drops the grey pill background.
   </div>
   ````
 
+## GSAP addon (auto-loaded) — interaction gotchas
+
+This theme bundles **`slidev-addon-gsap`** (see its skill for the full
+`useTl`/`usePos`/`useTwo` API). A few interaction points that aren't obvious and
+cost real debugging time:
+
+- **`useTwo` anchors need `usePos()` instantiated in the same slide.** The
+  `'.sel@anchor'` strings passed to `mkArrow`/`mkPath`/`mkCircle` resolve through a
+  global registry that is only installed inside `usePos()`'s `onMounted`. Call it
+  even if you never use the returned `pos` — otherwise every anchor silently
+  resolves to `(0,0)` and all shapes pile up at the slide's top-left corner:
+  ```ts
+  const tl  = useTl()
+  const two = useTwo()
+  usePos()   // ← registers the anchor resolver; without it every anchor → (0,0)
+  ```
+  (The gsap skill's *"no `pos()` wrapper needed"* means don't wrap each anchor in
+  `pos(...)` — it does **not** mean you can skip calling `usePos()`.)
+- **`two.back` draws behind the slide's opaque content** and is invisible on a
+  `theme: db` slide — use `two.front` for arrows/shapes meant to be seen.
+- In a slide `<script setup>`, **`$clicks` / `$slidev` / `$nav` are auto-injected**
+  — don't re-declare them (`const { $clicks } = useSlideContext()` → "already
+  declared"); just use `$clicks`. And **don't `import { gsap } from 'gsap'`** —
+  it's a transitive dep, unresolvable from the deck root; use the `useTl` timeline
+  methods (or plain DOM) instead.
+- Driving **async content** (a Mermaid SVG) with `useTl` needs a wait/seek dance —
+  see the next section.
+
+## Diagrams — Mermaid (and animating them)
+
+Slidev's **built-in Mermaid** (```` ```mermaid ````) works under `theme: db` and
+is the right tool for graphs/trees (query plans, DAGs) — don't hand-draw boxes
+with divs + arrows. Colour nodes to brand with `classDef`/`class` using the
+design tokens below. Layout tips that bit us:
+
+- A long linear chain overflows **vertically** — use `flowchart LR` so it spreads
+  across the wide 16:9 slide.
+- **Bold** htmlLabels get clipped on the right edge (Mermaid under-measures bold
+  width) — add `"flowchart":{"padding":18}` to the `%%{init:…}%%` directive.
+- Then size with the Slidev block option `{scale: …}` (≈`0.52` fit a 7-node LR
+  chain across the slide; `0.6` clipped the last node).
+
+**Per-click reveal** of a Mermaid diagram (build it up node-by-node with the gsap
+addon's `useTl`) is possible but sharp-edged, because Slidev renders Mermaid into
+a **Shadow DOM**, asynchronously:
+
+- Reach the SVG through the host's shadow root, **not** the light DOM:
+  `(root.querySelector('.mermaid') as HTMLElement).shadowRoot`.
+- Render is async → poll `shadowRoot.querySelector('g.node')` with **`setTimeout`**
+  (not `requestAnimationFrame` — rAF stalls under headless-screenshot virtual
+  time). `useTl`'s `step()` registers the click count reactively, so building the
+  timeline late is fine; but its slide-enter seek already ran on the empty
+  timeline, so finish with `(tl as any).seek('step-' + ($clicks.value ?? 0))`.
+- Node ids are `<randomDiagramId>-flowchart-<name>-<n>` → match with
+  `[id*="flowchart-<name>-"]` (contains, **not** `^=`). Edges:
+  `.edgePaths path.flowchart-link`, emitted in declaration order.
+- Pass the resolved **element refs** to `useTl`'s `.to()` — its scoping only does
+  light-DOM `querySelectorAll`, which can't see into shadow DOM. GSAP animates
+  element refs across the boundary fine. Hide them first with plain
+  `el.style.opacity = '0'`, then reveal per step.
+
+See the **`slidev-addon-gsap`** skill for the `useTl`/`usePos`/`useTwo` API.
+
 ## Tables
 
 Plain Markdown tables get the template look automatically (borderless, white bold
@@ -218,3 +287,5 @@ Slide is **720×405pt**. Brand colours (CSS vars on `:root`):
 - Use the table helper classes rather than inline table CSS.
 - Leave blank lines inside any `<div>` that wraps Markdown.
 - Restart the dev server after editing theme files; slide .md hot-reloads.
+- For animation/`<script setup>` gotchas (`usePos()`, injected `$clicks`, no
+  `gsap` import), see **GSAP addon — interaction gotchas** above.
