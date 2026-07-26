@@ -5,79 +5,45 @@
 // title-slide tiles), and the logos are the theme's own white SVGs. No raster.
 // Geometry (positions/sizes in pt == px on the 720-wide canvas) is taken from
 // slideLayout1.xml ("Titelfolie") so it matches the source template.
-import mosaic from '../assets/cover-mosaic.svg'
+import mosaic from '../assets/mosaic.svg'
 import tudWhite from '../assets/tud-white.svg'
 import ddrgWhite from '../assets/ddrg-white.svg'
 </script>
 
 <template>
-  <div class="slidev-layout db-cover">
+  <div class="slidev-layout db-cover p-0">
     <!-- navy band: solid fill + vector mosaic + logos, all overlaid -->
-    <div class="db-cover__band">
-      <img class="db-cover__mosaic" :src="mosaic" alt="" />
-      <img
-        class="db-cover__logo"
-        :src="tudWhite"
-        alt="TU Dresden"
-        style="left: 464.83px; top: 11.93px; width: 109.67px; height: 45.67px"
-      />
-      <img
-        class="db-cover__logo"
-        :src="ddrgWhite"
-        alt="Dresden Database Research Group"
-        style="left: 598.52px; top: 18.56px; width: 93.23px; height: 32.4px"
-      />
+    <div class="relative w-full h-[345px] bg-[var(--db-navy)] overflow-hidden">
+      <img class="absolute h-full scale-[1.01]" :src="mosaic" alt="" />
+      <div class="absolute flex gap-[45px] top-[25px] right-[35px]">
+        <img
+          class="h-[45px]"
+          :src="tudWhite"
+          alt="TU Dresden"
+        />
+        <img
+          class="h-[45px]"
+          :src="ddrgWhite"
+          alt="Dresden Database Research Group"
+        />
+      </div>
     </div>
 
     <!-- white area: title (#) + subtitle (following text) -->
-    <div class="db-cover__title">
+    <div class="db-cover__title relative m-[30px]">
       <slot />
     </div>
   </div>
 </template>
 
 <style scoped>
-/* px == pt (canvas 720). The band is 720x258pt, matching the source template. */
-.db-cover {
-  position: relative;
-  background: #fff;
-  padding: 0;
-}
-.db-cover__band {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 720px;
-  height: 258px;
-  background: var(--db-navy);
-}
-.db-cover__mosaic {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 720px;
-  height: 258px;
-}
-.db-cover__logo {
-  position: absolute;
-}
-
-.db-cover__title {
-  position: absolute;
-  left: 36px;
-  top: 270px;
-  right: 36px;
-}
 .db-cover__title :deep(h1) {
-  margin: 0;
-  font-size: 27px;
-  font-weight: 700;
-  color: var(--db-navy);
-  line-height: 1.2;
+  @apply text-4xl! font-700;
 }
 .db-cover__title :deep(p) {
-  margin: 16px 0 0;
-  font-size: 15px;
+  @apply absolute top-[95px] m-0 text-md;
+  /* margin: 16px 0 0; */
+  /* font-size: 15px; */
   color: var(--db-text-soft);
 }
 </style>

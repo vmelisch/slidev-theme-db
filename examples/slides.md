@@ -9,6 +9,15 @@ layout: cover
 Practical Course: SQL, Summer Semester 2026
 
 ---
+layout: section
+---
+
+# Week 8: JSON in SQL
+
+<!-- Practical Course: SQL, Summer Semester 2026 -->
+
+
+---
 layout: two-cols-header
 columns: 55fr 45fr
 ---
