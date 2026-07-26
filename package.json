@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "slidev build examples/slides.md",
-    "dev": "slidev examples/slides.md --open",
+    "dev": "slidev examples/slides.md --remote",
     "export": "slidev export examples/slides.md"
   },
   "dependencies": {
