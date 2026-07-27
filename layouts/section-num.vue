@@ -1,7 +1,43 @@
 <script setup lang="ts">
+import { useSlideContext } from '@slidev/client'
+import { computed } from 'vue'
+
 import mosaic from '../assets/section-mosaic.svg'
 import tudWhite from '../assets/tud-white.svg'
 import ddrgWhite from '../assets/ddrg-white.svg'
+
+// The large glyph in the blue area can be overridden per slide via the `num`
+// frontmatter, e.g.
+//   layout: section-num
+//   num: IV
+// By default it is the slide's position in the table of contents: its 1-based
+// index among its siblings at its own TOC level. Slides missing from the TOC
+// (no title, or `hideInToc`) show no glyph.
+const props = defineProps({
+  num: { type: [String, Number], default: '' },
+})
+
+const { $nav, $page } = useSlideContext()
+
+interface TocEntry { no: number, children: TocEntry[] }
+
+// 1-based index of the slide numbered `no` among its siblings, or 0 if absent
+function tocIndexOf(items: TocEntry[], no: number): number {
+  for (const [i, item] of items.entries()) {
+    if (item.no === no)
+      return i + 1
+    const nested = tocIndexOf(item.children, no)
+    if (nested)
+      return nested
+  }
+  return 0
+}
+
+const num = computed(() => {
+  if (String(props.num) !== '')
+    return props.num
+  return tocIndexOf($nav.value?.tocTree ?? [], $page.value) || ''
+})
 </script>
 
 <template>
@@ -9,7 +45,10 @@ import ddrgWhite from '../assets/ddrg-white.svg'
     <div class="relative w-full h-[345px] bg-[#2f57b2]">
       <!-- glyph is painted using bg-clip to circumvent firefox' font scaling limit -->
       <!-- See https://bugzilla.mozilla.org/show_bug.cgi?id=1677551 -->
-      <div class="absolute font-700 text-[24rem]/[24rem] pt-8 px-4 bg-white bg-clip-text text-transparent">3</div>
+      <div
+        v-if="num !== ''"
+        class="absolute font-700 text-[24rem]/[24rem] pt-8 px-4 bg-white bg-clip-text text-transparent"
+      >{{ num }}</div>
       <div class="absolute flex gap-[45px] top-[25px] right-[35px]">
         <img
           class="h-[45px]"

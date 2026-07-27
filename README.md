@@ -11,19 +11,20 @@ dependencies:
 
 ```bash
 pnpm create slidev          # the standard Slidev scaffolder (skip if you have a deck)
-pnpm add -D github:vmelisch/slidev-theme-db github:maxkurze1/slidev-addon-gsap
+pnpm add -D github:vmelisch/slidev-theme-db slidev-addon-gsap
 ```
 
 Then point the deck at the theme in `slides.md`:
 
 ```yaml
 ---
-theme: db          # short form; or the full name: slidev-theme-db
+theme: db
 ---
 ```
 
 ```bash
-pnpm dev           # live preview at localhost:3030
+# live preview at localhost:3030
+pnpm dev
 ```
 
 No `addons:` line needed — the theme enables `slidev-addon-gsap` via its

@@ -17,7 +17,7 @@ const showChrome = computed(() => $nav.value?.currentLayout !== 'cover' &&  $nav
     <img class="absolute top-[25px] right-[35px] h-[45px]" :src="ddrgColor" alt="Dresden Database Research Group" />
 
     <footer
-      class="db-footer absolute inset-x-0 bottom-0 h-[40px] px-[28px] flex items-center justify-between bg-[var(--db-footer-bg)] pointer-events-auto"
+      class="db-footer absolute inset-x-0 bottom-0 h-[40px] px-[30px] flex items-center justify-between bg-[var(--db-footer-bg)] pointer-events-auto"
     >
       <img class="h-[25px]" :src="tudBlack" alt="TU Dresden" />
       <span class="text-[12px] text-[var(--db-text)]">
