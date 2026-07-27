@@ -6,7 +6,7 @@ import ddrgColor from './assets/ddrg-color.svg'
 import tudBlack from './assets/tud-black.svg'
 
 const { $nav } = useSlideContext()
-const showChrome = computed(() => $nav.value?.currentLayout !== 'cover')
+const showChrome = computed(() => $nav.value?.currentLayout !== 'cover' &&  $nav.value?.currentLayout !== 'section-num')
 </script>
 
 <template>

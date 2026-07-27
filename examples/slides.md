@@ -16,6 +16,14 @@ layout: section
 
 <!-- Practical Course: SQL, Summer Semester 2026 -->
 
+---
+layout: section-num
+---
+
+# A numbered Section
+
+With some small note on the bottom just like on cover slides
+
 
 ---
 layout: two-cols-header
