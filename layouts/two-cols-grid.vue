@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useLogo } from '../scripts/logo'
+
 // Like two-cols-header, but the two columns are laid out as a ROW GRID: every
 // top-level <div> in the `::grid::` slot becomes a cell, filling left, right,
 // left, right… Because CSS grid rows align across columns, paired items (e.g. a
@@ -19,6 +21,8 @@ const props = defineProps({
   columns: { type: String, default: '1fr 1fr' },
   codeSize: { type: String, default: '' },
 })
+
+useLogo({ ddrg: 'color', footer: true })
 </script>
 
 <template>

@@ -1,32 +1,15 @@
 <script setup lang="ts">
-// "Titelfolie" — navy band (top, with the DDRG mosaic + both logos) + white
-// title area below. Reconstructed as pure vector: the navy is a CSS fill, the
-// corner mosaic is `cover-mosaic.svg` (rebuilt from the original DB_template.potx
-// title-slide tiles), and the logos are the theme's own white SVGs. No raster.
-// Geometry (positions/sizes in pt == px on the 720-wide canvas) is taken from
-// slideLayout1.xml ("Titelfolie") so it matches the source template.
+import { useLogo } from '../scripts/logo'
 import mosaic from '../assets/mosaic.svg'
-import tudWhite from '../assets/tud-white.svg'
-import ddrgWhite from '../assets/ddrg-white.svg'
+
+useLogo({ ddrg: 'white', tud: true })
 </script>
 
 <template>
   <div class="slidev-layout db-cover p-0">
-    <!-- navy band: solid fill + vector mosaic + logos, all overlaid -->
+    <!-- navy band: solid fill + vector mosaic, logos handled by global-bottom -->
     <div class="relative w-full h-[345px] bg-[var(--db-navy)] overflow-hidden">
       <img class="absolute h-full scale-[1.01]" :src="mosaic" alt="" />
-      <div class="absolute flex gap-[45px] top-[25px] right-[35px]">
-        <img
-          class="h-[45px]"
-          :src="tudWhite"
-          alt="TU Dresden"
-        />
-        <img
-          class="h-[45px]"
-          :src="ddrgWhite"
-          alt="Dresden Database Research Group"
-        />
-      </div>
     </div>
 
     <!-- white area: title (#) + subtitle (following text) -->

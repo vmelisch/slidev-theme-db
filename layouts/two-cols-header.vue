@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useLogo } from '../scripts/logo'
+
 // "Zwei Inhalte": full-width title (default slot) + two columns. Chrome via DbFrame.
 // Column ratio is configurable per slide via the `columns` frontmatter, e.g.
 //   layout: two-cols-header
@@ -7,6 +9,8 @@ const props = defineProps({
   columns: { type: String, default: '1fr 1fr' },
   codeSize: { type: String, default: '' },
 })
+
+useLogo({ ddrg: 'color', footer: true })
 </script>
 
 <template>

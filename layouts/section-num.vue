@@ -2,9 +2,9 @@
 import { useSlideContext } from '@slidev/client'
 import { computed } from 'vue'
 
-import mosaic from '../assets/section-mosaic.svg'
-import tudWhite from '../assets/tud-white.svg'
-import ddrgWhite from '../assets/ddrg-white.svg'
+import { useLogo } from '../scripts/logo'
+
+useLogo({ ddrg: 'white', tud: true })
 
 // The large glyph in the blue area can be overridden per slide via the `num`
 // frontmatter, e.g.
@@ -49,18 +49,6 @@ const num = computed(() => {
         v-if="num !== ''"
         class="absolute font-700 text-[24rem]/[24rem] pt-8 px-4 bg-white bg-clip-text text-transparent"
       >{{ num }}</div>
-      <div class="absolute flex gap-[45px] top-[25px] right-[35px]">
-        <img
-          class="h-[45px]"
-          :src="tudWhite"
-          alt="TU Dresden"
-        />
-        <img
-          class="h-[45px]"
-          :src="ddrgWhite"
-          alt="Dresden Database Research Group"
-        />
-      </div>
     </div>
 
     <!-- white area: title (#) + subtitle (following text) -->

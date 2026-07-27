@@ -25,6 +25,7 @@
     "components",
     "global-bottom.vue",
     "layouts",
+    "scripts",
     "markdown.ts",
     "setup",
     "styles",
