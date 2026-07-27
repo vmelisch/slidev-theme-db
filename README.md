@@ -10,15 +10,15 @@ Set up a Slidev deck as usual, then add this theme and the gsap addon as
 dependencies:
 
 ```bash
-pnpm create slidev          # the standard Slidev scaffolder (skip if you have a deck)
-pnpm add -D github:vmelisch/slidev-theme-db slidev-addon-gsap
+pnpm create slidev # the standard Slidev scaffolder (skip if you have a deck)
+pnpm add -D slidev-theme-tud-db slidev-addon-gsap
 ```
 
 Then point the deck at the theme in `slides.md`:
 
 ```yaml
 ---
-theme: db
+theme: tud-db
 ---
 ```
 
@@ -29,10 +29,8 @@ pnpm dev
 
 No `addons:` line needed — the theme enables `slidev-addon-gsap` via its
 defaults, so `import { useTl } from 'slidev-addon-gsap'` works in any slide. The
-theme also sets `canvasWidth: 720` (1px == 1pt), Noto Sans, light scheme, and
+theme also sets `canvasWidth: 960` (1px == 1pt), Noto Sans, light scheme, and
 Comark on; override any in your own headmatter.
-
-> Prerequisite: Node.js, then enable pnpm once with `corepack enable pnpm`.
 
 ## Example
 
