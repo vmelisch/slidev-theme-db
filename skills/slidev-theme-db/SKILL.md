@@ -7,10 +7,11 @@ description: >-
   template. Covers the layouts (cover, default, two-cols-header, two-cols-grid),
   heading/sub-header spacing, lists, inline `{lang}` code highlighting, fenced
   code blocks (captions, per-slide/per-block size, line numbers), template-styled
-  tables (captions, equal/reach width helpers), Mermaid diagrams (brand styling
+  tables (captions, equal/reach width helpers), the `::takeaway` callout for
+  rhetorical questions / one-sentence summaries, Mermaid diagrams (brand styling
   and per-click reveal via gsap), the Comark curly-brace gotcha, and design
   tokens. Use whenever writing or modifying slides for a `theme: db` deck, or when
-  asked about its layouts, tables, code styling, diagrams, or colours.
+  asked about its layouts, tables, code styling, callouts, diagrams, or colours.
 ---
 
 # slidev-theme-db
@@ -248,11 +249,50 @@ header with rules, zebra rows, centered cells, small, content-width). On top of 
 > When wrapping a table (or code block) in a `<div>`, leave **blank lines**
 > inside the div so the Markdown still parses.
 
+## Callout — `::takeaway` (rhetorical questions / one-sentence summaries)
+
+The **preferred element for a rhetorical question or a one-sentence takeaway**
+(the "so what?" line that caps a slide). "F1" style: a coloured **left rule** fitted
+to the text height + a small uppercase **eyebrow label**, no fill, no symbol,
+upright body text. Authored as an **MDC block** (needs `mdc: true`, which the theme
+sets):
+```md
+::takeaway{label="Question"}
+Why translate source code if SIMDe already works?
+::
+```
+Props:
+- **`label`** — the eyebrow text. Default `"Key Takeaway"`. Use `"Question"`,
+  `"Problem"`, `"Watch out"`, … Set `label=""` to hide the eyebrow (bare ruled aside).
+- **`color`** — the rule + eyebrow colour, so a problem reads differently from a
+  takeaway. Brand keywords `blue` (default) · `navy` · `teal` · `green` · `yellow`
+  · `red`/`orange` · `purple`, or any raw CSS colour. E.g. a red problem callout:
+  ```md
+  ::takeaway{label="Problem" color="red"}
+  Porting to each of these by hand is **tedious**.
+  ::
+  ```
+- **`size`** — overall scale. The body text matches the slide's default text size
+  by default; set e.g. `size="1.15em"` (or a bare number `size="1.15"`, read as em)
+  to enlarge the whole callout. All spacing is em-based, so it stays vertically
+  balanced at any size — don't hand-tweak the padding.
+
+Inline markdown works inside (`**bold**`, `` `code` `` — code stays a touch
+lighter). Prefer this over a blockquote for a highlighted takeaway; keep `>` for a
+genuine low-key side-note (see below). Component: `components/Takeaway.vue`, styled
+as `.db-takeaway` in `styles/db-theme.css` (accent via `--tk-accent`; the small
+asymmetric em top/bottom padding offsets the eyebrow cap-height vs body baseline so
+the rule is optically centred — leave it be).
+
+> Adding/renaming a component file (like `Takeaway.vue`) needs a **dev-server
+> restart** to register — editing an existing component or its CSS hot-reloads.
+
 ## Other text features
 
 - **ASCII arrows** in plain text become Unicode: `-->` → →, `<--` → ←, `<-->` → ↔.
   (Only in prose; code like SQL `->`/`->>` is never touched.)
-- **Blockquote** `> note` renders as a muted italic aside with a leading en-dash.
+- **Blockquote** `> note` renders as a muted italic aside with a leading en-dash —
+  a *quiet* side-note. For a highlighted takeaway, use `::takeaway` above instead.
 
 ## Vertical spacing tweaks (per spot, no theme edits)
 

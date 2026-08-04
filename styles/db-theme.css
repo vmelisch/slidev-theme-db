@@ -160,6 +160,35 @@
   font-style: normal; /* keep inline code upright inside the italic aside */
 }
 
+/* Rhetorical-question / one-sentence-takeaway callout (<Takeaway> via ::takeaway).
+   "F1" style: a coloured left rule fitted to the text height + a small uppercase
+   eyebrow label, no fill, no symbol. The accent colour is driven by --tk-accent
+   (set inline by the component from its `color` prop), defaulting to brand blue. */
+.slidev-layout.db-default .db-takeaway {
+  margin: 0.6em 0;
+  /* em-based so the rule stays vertically balanced at any `size`. The tiny
+     top/bottom difference offsets the label cap-height vs body baseline insets. */
+  padding: 0.28em 0 0.11em 0.85em;
+  border-left: 3px solid var(--tk-accent, var(--db-heading-blue));
+}
+.slidev-layout.db-default .db-takeaway__label {
+  margin-bottom: 0.3em;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--tk-accent, var(--db-heading-blue));
+}
+.slidev-layout.db-default .db-takeaway__body {
+  font-size: 1em;
+  line-height: 1.2;
+  color: var(--db-text-soft);
+}
+.slidev-layout.db-default .db-takeaway__body p { margin: 0; }
+.slidev-layout.db-default .db-takeaway__body strong { font-weight: 700; }
+.slidev-layout.db-default .db-takeaway__body code { font-weight: 500; }
+
 /* Fenced code blocks: box only as wide as its content, not full slide width.
    fit-content on the WRAPPER so an optional caption + the code share one width.
    max-width keeps long lines from overflowing the slide. */
@@ -187,9 +216,12 @@
    are a wide 24px gap between the number and the code, plus the block's 10px
    left padding before the number. Both are scoped to line-numbered blocks so
    plain code blocks keep their normal padding. */
-.slidev-layout.db-default .slidev-code-line-numbers .slidev-code {
+.slidev-layout.db-default .slidev-code-line-numbers .slidev-code,
+.slidev-layout.db-default .shiki-magic-move-container.slidev-code {
   /* override the padding *variable* (Slidev applies padding via it, which beats
-     a plain padding-left here). top right bottom left — only the left shrinks. */
+     a plain padding-left here). top right bottom left — only the left shrinks.
+     The Magic Move container isn't wrapped in .slidev-code-line-numbers, so it
+     needs the same override to keep its gutter rule aligned with plain blocks. */
   --slidev-code-padding: 4px 10px 4px 6px;   /* less space left of the numbers (was 10px) */
 }
 .slidev-layout.db-default .slidev-code-line-numbers .slidev-code code .line::before {
@@ -200,6 +232,32 @@
   padding-right: 10px; /* number → separator */
   border-right: 1px solid var(--db-table-rule);
   margin-right: 7px;   /* separator → code (was a plain 8px gap) */
+}
+
+/* Magic Move (```md magic-move```) renders line numbers as real
+   .shiki-magic-move-line-number elements (each with opacity:0.3), not the
+   ::before pseudo the plain blocks use — so the gutter rule above never reaches
+   them and the separator was missing. Re-create the same gutter: recolour the
+   numbers to match plain line-numbered blocks (gray-400, gray-600 in dark) so
+   the border can sit at full opacity instead of the dimmed 0.3. */
+.slidev-layout.db-default .shiki-magic-move-line-number {
+  opacity: 1;
+  color: rgb(156 163 175);
+  /* Mirror the plain block's ::before geometry exactly: a fixed 1ch column,
+     right-aligned, so the digit is pinned against the padding instead of
+     shrink-wrapped and left-aligned. white-space:normal drops the literal
+     trailing spaces Magic Move pads numbers with (e.g. "1  "). */
+  box-sizing: border-box;
+  width: 1ch;
+  text-align: right;
+  overflow: visible;
+  white-space: normal;
+  padding-right: 10px; /* number → separator */
+  border-right: 1px solid var(--db-table-rule);
+  margin-right: 7px;   /* separator → code */
+}
+.dark .slidev-layout.db-default .shiki-magic-move-line-number {
+  color: rgb(75 85 99);
 }
 
 /* Optional caption above a code block.
