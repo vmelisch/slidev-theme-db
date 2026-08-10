@@ -364,10 +364,11 @@
   vertical-align: middle;         /* center cell text vertically */
   text-align: center;             /* center by default; :--/--: in markdown override */
 }
-/* Space between stacked tables — top margin on every table after the first.
-   (Equivalent to bottom-margin-on-all-but-last; NOT the same as bottom-margin
-   on all, which would also add a gap after the last table.) */
-.slidev-layout.db-default table:not(:first-of-type) {
+/* Breathing room above a table that follows something else — a heading, a
+   paragraph, a caption, or another (stacked) table. A table that is the very
+   first element in its container gets no top margin, so it sits flush at the
+   top of a slide or column. */
+.slidev-layout.db-default table:not(:first-child) {
   margin-top: 14px;
 }
 .slidev-layout.db-default thead th {
