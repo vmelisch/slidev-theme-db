@@ -29,8 +29,7 @@
  * height:100% fills the slide (theme provides this; not inherited from
  * @slidev/theme-default anymore). */
 .slidev-layout {
-  height: 100%;
-  background: #ffffff;
+  /* background: #ffffff; */
   color: var(--db-text-soft);
   font-family: 'NotoSans', ui-sans-serif, system-ui, sans-serif;
 }
@@ -63,23 +62,17 @@
 /* Content slides ("Titel und Inhalt").
  * Canvas is 720px wide (== 720pt real slide), so px values below equal PowerPoint pt. */
 .slidev-layout.db-default {
-  font-size: 13px;    /* bullet / body text = 13pt */
-  line-height: 1.15;  /* tight line spacing */
-  padding: 0;         /* we control spacing via the body wrapper + footer */
+  @apply text-md p-0;
 }
 .slidev-layout.db-default h1 {
   color: var(--db-text-soft); /* black/gray page heading */
-  font-size: 22px;            /* 22pt */
-  line-height: 1.2;
-  margin-bottom: 36px;        /* gap to first sub-header (~36pt in template) */
+  @apply text-3xl mb-[46px]; /* gap to first sub-header (~46pt in template) */
 }
 .slidev-layout.db-default h2,
 .slidev-layout.db-default h3 {
   color: var(--db-heading-blue); /* blue sub-headers */
-  font-size: 15px;               /* 15pt */
-  line-height: 1.25;
-  margin-top: 24px;              /* space ABOVE a sub-header, whatever precedes it
-                                    (bullet list, code block, paragraph, …) */
+  @apply text-xl mt-[45px]; /* space ABOVE a sub-header, whatever precedes it
+                              (bullet list, code block, paragraph, …) */
 }
 /* …except a sub-header that is the FIRST content of its area (right under the
    page title, or the top of a column / grid cell) — the title's margin-bottom
@@ -135,11 +128,6 @@
 .slidev-layout.db-default li::marker {
   color: var(--db-text-soft);
 }
-/* Shrink only the bullet glyphs (• ▪); ordered-list numbers keep text size. */
-.slidev-layout.db-default ul li::marker {
-  font-size: 0.8em;
-}
-
 /* Blockquotes -> a muted italic aside with a leading en-dash
    (the "– …" secondary-note style). */
 .slidev-layout.db-default blockquote {
