@@ -431,11 +431,11 @@
 
 /* Inline math: KaTeX's default 1.21em makes capitals 15% taller than Noto
    Sans ones, and its 1.2 line height stretches the bullet it sits in. At 1.05em
-   the capitals match; line-height 0 leaves the line height to KaTeX's struts, so
-   a simple formula keeps the bullet as tall as its neighbours. */
+   the capitals match; line-height 1 keeps a formula's bullet within 0.5px of its
+   neighbours. (Not 0: that misplaces overlays such as the slash of \notin.) */
 .slidev-layout.db-default .katex {
   font-size: 1.05em;
 }
 .slidev-layout.db-default :not(.katex-display) > .katex {
-  line-height: 0;
+  line-height: 1;
 }
