@@ -143,7 +143,7 @@ columns: 65fr 35fr
 ---
 layout: two-cols-grid
 columns: 55fr 45fr
-codeSize: 10px
+codeSize: 13px
 ---
 
 # Access Operators (1)

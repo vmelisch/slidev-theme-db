@@ -11,7 +11,8 @@ const props = defineProps({
     class="slidev-layout default db-default relative"
     :style="props.codeSize ? { '--slidev-code-font-size': props.codeSize } : undefined"
   >
-    <div class="db-default__body px-[30px] py-[33.5px]">
+    <!-- top padding puts the title's baseline at 41.9pt, as in the template -->
+    <div class="db-default__body px-[30px] pt-[26.5px] pb-[33.5px]">
       <slot />
     </div>
   </div>

@@ -42,7 +42,7 @@ const logos = computed(() => slideLogos[$nav.value.currentPage] ?? {})
       class="db-footer absolute inset-x-0 bottom-0 h-[40px] px-[30px] flex items-center justify-between bg-[var(--db-footer-bg)] pointer-events-auto transition-opacity duration-500"
     >
       <img class="h-[25px]" :src="tudBlack" alt="TU Dresden" />
-      <span class="text-[12px] text-[var(--db-text)]">
+      <span class="db-footer__page">
         <span class="font-bold">{{ $nav.currentPage }}</span>
         <template v-if="$nav.clicksTotal > 0">
           <span class="text-[0.7em]">.{{ $nav.clicks + 1 }}</span>

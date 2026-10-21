@@ -29,7 +29,7 @@ pnpm dev
 
 No `addons:` line needed — the theme enables `slidev-addon-gsap` via its
 defaults, so `import { useTl } from 'slidev-addon-gsap'` works in any slide. The
-theme also sets `canvasWidth: 960` (1px == 1pt), Noto Sans, light scheme, and
+theme also sets `canvasWidth: 960` (the 720pt PowerPoint slide, so 1pt == 4/3 px), Noto Sans, light scheme, and
 Comark on; override any in your own headmatter.
 
 ## Example

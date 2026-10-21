@@ -21,12 +21,12 @@ useLogo({ ddrg: 'color', footer: true })
 
 <style scoped>
 .db-cover__title :deep(h1) {
-  @apply text-4xl! font-700 text-[var(--db-heading-blue)];
+  @apply font-700 leading-10 text-[var(--db-heading-blue)];
+  font-size: var(--db-fs-section-title) !important;
 }
 .db-cover__title :deep(p) {
-  @apply absolute top-[95px] m-0 text-md;
-  /* margin: 16px 0 0; */
-  /* font-size: 15px; */
+  @apply absolute top-[95px] m-0;
+  font-size: var(--db-fs-subtitle);
   color: var(--db-text-soft);
 }
 </style>

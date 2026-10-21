@@ -35,8 +35,9 @@ theme: db          # short form; or the full name slidev-theme-db
 ---
 ```
 The theme supplies these defaults (override in your own headmatter if needed):
-`canvasWidth: 720` so **1px == 1pt** (use plain px values that match PowerPoint
-pt), Noto Sans via Google Fonts, light colour scheme, **Comark enabled**, and
+`canvasWidth: 960` for the 720pt-wide PowerPoint slide, so **1pt == 4/3 px**
+(a PowerPoint size of N pt is `calc(N * var(--db-pt))`, never `Npx` — see the type
+scale under Design tokens), Noto Sans via Google Fonts, light colour scheme, **Comark enabled**, and
 `addons: [slidev-addon-gsap]` (so the gsap addon loads automatically).
 
 > Do **not** add `addons: [gsap]` just for animations — it's already loaded. Only
@@ -115,7 +116,8 @@ footer); `default` / `two-cols-*` show the DDRG logo + footer band.
 - Body text → 13pt near-black.
 
 **Spacing above sub-headers is automatic and you don't manage it:** a `##`/`###`
-that follows other content gets a 24px gap; the **first** sub-header in a column
+that follows other content gets an 11px gap (the template's 27.9pt from a bullet's
+baseline to the next sub-header's); the **first** sub-header in a column
 (or right under the page title) sits flush. This is **wrap-proof** — wrapping a
 section in a `<div>` (e.g. as a GSAP animation anchor) does *not* collapse the
 gap. So never add manual spacing before a sub-header.
@@ -156,7 +158,8 @@ drops the grey pill background.
   ````
 - **Click-stepped highlighting:** `{1|2|3|all}` highlights one line group per
   click; combine with numbers: ```` ```sql {1|2|3|all}{lines:true} ````.
-- **Per-slide font size:** `codeSize: 14px` in slide frontmatter (default 11px).
+- **Per-slide font size:** `codeSize: 13px` in slide frontmatter (default 11pt
+  ≈ 14.7px; shrink to squeeze a long listing).
 - **Per-block font size:** wrap one block in a div overriding the variable
   (blank lines inside so the code still parses):
   ````md
@@ -303,7 +306,23 @@ the rule is optically centred — leave it be).
 
 ## Design tokens
 
-Slide is **720×405pt**. Brand colours (CSS vars on `:root`):
+Slide is **720×405pt**, rendered on a 960×540px canvas (`--db-pt` = 4/3 px).
+Type scale (CSS vars on `:root`, sizes from the PowerPoint template):
+
+| token | pt | use |
+| --- | --- | --- |
+| `--db-fs-cover-title` | 28 | cover / `section-num` title |
+| `--db-fs-section-title` | 24 | `section` title |
+| `--db-fs-subtitle` | 14 | cover / section subtitle |
+| `--db-fs-title` | 22 | content slide title (h1) |
+| `--db-fs-heading` | 15 | blue sub-header (h2/h3) |
+| `--db-fs-body` | 13 | body text, 1st-level bullets |
+| `--db-fs-small` | 12 | 2nd-level bullets, page number |
+| `--db-fs-code` | 11 | code blocks |
+| `--db-fs-caption` | 11 | table / code captions |
+| `--db-fs-table` | 10 | table cells |
+
+Brand colours (CSS vars on `:root`):
 
 | token | hex | use |
 | --- | --- | --- |

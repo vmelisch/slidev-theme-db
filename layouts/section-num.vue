@@ -60,10 +60,12 @@ const num = computed(() => {
 
 <style scoped>
 .db-cover__title :deep(h1) {
-  @apply text-4xl! font-700 text-[var(--db-heading-blue)];
+  @apply font-700 leading-10 text-[var(--db-heading-blue)];
+  font-size: var(--db-fs-cover-title) !important;
 }
 .db-cover__title :deep(p) {
-  @apply absolute top-[95px] m-0 text-md;
+  @apply absolute top-[95px] m-0;
+  font-size: var(--db-fs-subtitle);
   color: var(--db-text-soft);
 }
 </style>

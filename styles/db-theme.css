@@ -20,6 +20,21 @@
   --db-table-stripe: #dbdbdb; /* zebra-striped table rows */
   --db-table-rule: #b9b9b9;   /* table header/footer rule lines */
 
+  /* Type scale, in PowerPoint points. The template slide is 720×405pt but the
+     theme renders it on Slidev's 960×540px canvas, so 1pt == 4/3 px — never
+     write a pt value as px. Sizes measured from resource/template.pdf. */
+  --db-pt: calc(4px / 3);
+  --db-fs-cover-title: calc(28 * var(--db-pt));   /* cover / section-num title */
+  --db-fs-section-title: calc(24 * var(--db-pt)); /* section title */
+  --db-fs-subtitle: calc(14 * var(--db-pt));      /* cover / section subtitle */
+  --db-fs-title: calc(22 * var(--db-pt));         /* content slide title (h1) */
+  --db-fs-heading: calc(15 * var(--db-pt));       /* blue sub-header (h2/h3) */
+  --db-fs-body: calc(13 * var(--db-pt));          /* body text, 1st-level bullets */
+  --db-fs-small: calc(12 * var(--db-pt));         /* 2nd-level bullets, page number */
+  --db-fs-code: calc(11 * var(--db-pt));          /* code blocks */
+  --db-fs-caption: calc(11 * var(--db-pt));       /* table / code captions */
+  --db-fs-table: calc(10 * var(--db-pt));         /* table cells */
+
   /* Slidev theme variables */
   --slidev-theme-primary: var(--db-accent3);
 }
@@ -59,27 +74,36 @@
   color: var(--db-accent3);
 }
 
-/* Content slides ("Titel und Inhalt").
- * Canvas is 720px wide (== 720pt real slide), so px values below equal PowerPoint pt. */
+/* Content slides ("Titel und Inhalt"). Font sizes come from the pt type scale
+ * on :root; spacing below is in canvas px, chosen so the baselines land where
+ * resource/template.pdf has them: title 41.9pt, first sub-header 92.5pt, then
+ * bullets every 18pt, and 27.9pt from a bullet to the next sub-header. (Noto
+ * Sans puts the baseline 0.388em below the middle of its line box.) */
 .slidev-layout.db-default {
-  @apply text-md p-0;
+  font-size: var(--db-fs-body);
+  padding: 0;
 }
 .slidev-layout.db-default h1 {
   color: var(--db-text-soft); /* black/gray page heading */
-  @apply text-3xl mb-[46px]; /* gap to first sub-header (~46pt in template) */
+  font-size: var(--db-fs-title);
+  line-height: 2.25rem;
+  margin-bottom: 39px;        /* gap to first sub-header (baseline at 92.5pt) */
 }
 .slidev-layout.db-default h2,
 .slidev-layout.db-default h3 {
   color: var(--db-heading-blue); /* blue sub-headers */
-  @apply text-xl mt-[45px]; /* space ABOVE a sub-header, whatever precedes it
-                              (bullet list, code block, paragraph, …) */
+  font-size: var(--db-fs-heading);
+  line-height: 1.75rem;
+  margin-top: 11px;              /* space ABOVE a sub-header, whatever precedes it
+                                    (bullet list, code block, paragraph, …);
+                                    27.9pt baseline-to-baseline after a bullet */
 }
 /* …except a sub-header that is the FIRST content of its area (right under the
    page title, or the top of a column / grid cell) — the title's margin-bottom
    or the grid gap already provides that separation.
    This is wrap-proof: a section wrapped in a <div> (e.g. a GSAP animation
    anchor) is still treated as "top" when its wrapper is the first child, but a
-   wrapped section that FOLLOWS other content keeps the 24px gap. So adding a
+   wrapped section that FOLLOWS other content keeps its top gap. So adding a
    wrapper div later does NOT collapse the spacing. (default layout: h1 is a
    sibling of the content; two-cols-header: .db-grid__col; two-cols-grid:
    .db-rowgrid cells.) */
@@ -105,7 +129,7 @@
 .slidev-layout.db-default ul ul,
 .slidev-layout.db-default ol ol {
   margin-left: 0;        /* 2nd-level marker aligns with 1st-level text (no extra indent) */
-  font-size: 12px;       /* 2nd-level text a touch smaller (12pt vs 13pt) */
+  font-size: var(--db-fs-small); /* 2nd-level text a touch smaller (12pt vs 13pt) */
 }
 .slidev-layout.db-default ul ul { list-style-type: square; }
 /* Tight vertical rhythm (theme defaults to ~1.8 line-height) */
@@ -192,10 +216,10 @@
 .slidev-layout.db-default .with-bg pre.slidev-code {
   background: rgba(0, 0, 0, 0.03) !important;
 }
-/* Code sizing (Slidev defaults: 12px / 18px / 8px). Slightly smaller font and
-   tighter vertical padding so the box hugs the code top and bottom. */
+/* Code sizing (Slidev defaults: 12px / 18px / 8px). 11pt like the template's
+   listings, with tighter vertical padding so the box hugs the code top and bottom. */
 .slidev-layout.db-default {
-  --slidev-code-font-size: 11px;
+  --slidev-code-font-size: var(--db-fs-code);
   --slidev-code-line-height: 1.3;
   --slidev-code-padding: 4px 10px;
 }
@@ -253,7 +277,7 @@
 .slidev-layout.db-default .slidev-code-block-title {
   padding: 3px 10px;
   background: transparent;        /* drop Slidev's heavy gray title bar */
-  font-size: 11px;
+  font-size: var(--db-fs-caption);
   font-style: italic;
   color: var(--db-text);
   opacity: 0.85;
@@ -270,7 +294,7 @@
 .slidev-layout.db-default p:has(.table-caption),
 .slidev-layout.db-default .table-footer,
 .slidev-layout.db-default p:has(.table-footer) {
-  font-size: 11px;
+  font-size: var(--db-fs-caption);
   background: transparent !important;
 }
 .slidev-layout.db-default .table-caption,
@@ -310,7 +334,7 @@
 .slidev-layout.db-default table {
   border-collapse: collapse;
   width: auto;                    /* default: hug content */
-  font-size: 10px;                /* 10pt (canvas 720 => px == pt) */
+  font-size: var(--db-fs-table);  /* 10pt */
 }
 /* Width control: tables hug content by default. To pin a width, wrap in
    <div class="table-w" style="width: …"> — the table then fills that box, so
@@ -372,6 +396,12 @@
 .slidev-layout.db-default tbody tr:last-child td {
   border-bottom: 1px solid var(--db-table-rule);
 }
+/* Footer page number (global-bottom.vue): 12pt like the template. */
+.db-footer__page {
+  font-size: var(--db-fs-small);
+  color: var(--db-text);
+}
+
 /* Inline code inside tables AND headings: keep the syntax colors but drop the
    gray "pill" background/padding so it reads like plain text. */
 .slidev-layout.db-default th code,
