@@ -217,10 +217,16 @@
   background: rgba(0, 0, 0, 0.03) !important;
 }
 /* Code sizing (Slidev defaults: 12px / 18px / 8px). 11pt like the template's
-   listings, with tighter vertical padding so the box hugs the code top and bottom. */
+   listings, with tighter vertical padding so the box hugs the code top and bottom.
+   No left padding: without a background box, the code text lines up with the
+   text, captions and tables around it, as in the template. A .with-bg box gets
+   its inset back. */
 .slidev-layout.db-default {
   --slidev-code-font-size: var(--db-fs-code);
   --slidev-code-line-height: 1.3;
+  --slidev-code-padding: 4px 10px 4px 0;
+}
+.slidev-layout.db-default .with-bg {
   --slidev-code-padding: 4px 10px;
 }
 
@@ -275,12 +281,15 @@
 /* Optional caption above a code block.
    Authoring:  ```python [What this snippet does]  */
 .slidev-layout.db-default .slidev-code-block-title {
-  padding: 3px 10px;
+  padding: 3px 0;                 /* flush with the code text below (see above) */
   background: transparent;        /* drop Slidev's heavy gray title bar */
   font-size: var(--db-fs-caption);
   font-style: italic;
   color: var(--db-text);
   opacity: 0.85;
+}
+.slidev-layout.db-default .with-bg .slidev-code-block-title {
+  padding-inline: 10px;           /* match the boxed code's inset */
 }
 
 /* Optional table captions (need Comark, enabled by this theme).
@@ -373,6 +382,7 @@
   border: none;                   /* no vertical/cell borders */
   padding: 2px 8px 4px;           /* tight padding; bottom>top optically centers
                                      single-line text (nudges it up) */
+  line-height: 1.4;               /* rows every 19.2pt (25.6px), as in the template */
   vertical-align: middle;         /* center cell text vertically */
   text-align: center;             /* center by default; :--/--: in markdown override */
 }
@@ -411,4 +421,21 @@
 .slidev-layout.db-default h3 code {
   background: transparent;
   padding: 0;
+}
+/* In a heading, code takes the heading's size and weight (the template's
+   "1.1 DISTINCT" is bold mono), not the light, smaller inline-code style. */
+.slidev-layout.db-default :is(h1, h2, h3) code {
+  font-size: 1em;
+  font-weight: inherit;
+}
+
+/* Inline math: KaTeX's default 1.21em makes capitals 15% taller than Noto
+   Sans ones, and its 1.2 line height stretches the bullet it sits in. At 1.05em
+   the capitals match; line-height 0 leaves the line height to KaTeX's struts, so
+   a simple formula keeps the bullet as tall as its neighbours. */
+.slidev-layout.db-default .katex {
+  font-size: 1.05em;
+}
+.slidev-layout.db-default :not(.katex-display) > .katex {
+  line-height: 0;
 }

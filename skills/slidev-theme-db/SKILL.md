@@ -143,6 +143,8 @@ drops the grey pill background.
 ## Code blocks (fenced)
 
 - Highlighted; the box **shrinks to fit** the code.
+- No background and no left inset: the code text lines up with the text, captions
+  and tables around it. `{class:'with-bg'}` adds a faint box with a 10px inset.
 - **Caption** above the block via the fence label:
   ````md
   ```python [A friendly greeting]
@@ -292,6 +294,8 @@ the rule is optically centred — leave it be).
 
 ## Other text features
 
+- **Inline math** `$A \cup B$` (KaTeX) is sized to match the body text and keeps
+  the line height of the bullet it sits in.
 - **ASCII arrows** in plain text become Unicode: `-->` → →, `<--` → ←, `<-->` → ↔.
   (Only in prose; code like SQL `->`/`->>` is never touched.)
 - **Blockquote** `> note` renders as a muted italic aside with a leading en-dash —
