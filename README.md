@@ -55,5 +55,7 @@ cp -r node_modules/slidev-theme-db/skills/slidev-theme-db .claude/skills/
 - `styles/db-theme.css` — tokens, typography, lists, tables (keyed on `.db-default`).
 - `setup/shiki.ts` (fenced) and the `THEME` in `vite.config.ts` (inline `{lang}`) —
   the **two** highlighters; keep them in sync (both `catppuccin-latte`).
+  `setup/shiki.ts` also holds the transformer behind `⟦name:text⟧` code marks
+  (spans a slide's timeline can recolour).
 - Link the theme with `link:` (not `file:`), and **restart** the dev server after
   editing theme files (Vite doesn't hot-reload `node_modules`).

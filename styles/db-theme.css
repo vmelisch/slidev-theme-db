@@ -229,17 +229,26 @@
 .slidev-layout.db-default .with-bg {
   --slidev-code-padding: 4px 10px;
 }
+/* No programming ligatures: Fira Code would draw <> as a diamond and <=, >=,
+   != as ≤, ≥, ≠, which readers then can't type. Code shows the characters
+   as written. (The theme's --> arrows in prose are a text replacement, not a
+   ligature, so they are unaffected.) */
+.slidev-layout code,
+.slidev-layout pre {
+  font-variant-ligatures: none;
+}
 
 /* Line numbers (```lang {lines:true}```): tighten the gutter. Slidev's defaults
    are a wide 24px gap between the number and the code, plus the block's 10px
    left padding before the number. Both are scoped to line-numbered blocks so
    plain code blocks keep their normal padding. */
 .slidev-layout.db-default .slidev-code-line-numbers .slidev-code,
-.slidev-layout.db-default .shiki-magic-move-container.slidev-code {
+.slidev-layout.db-default .shiki-magic-move-container.slidev-code:has(.shiki-magic-move-line-number) {
   /* override the padding *variable* (Slidev applies padding via it, which beats
      a plain padding-left here). top right bottom left — only the left shrinks.
      The Magic Move container isn't wrapped in .slidev-code-line-numbers, so it
-     needs the same override to keep its gutter rule aligned with plain blocks. */
+     needs the same override to keep its gutter rule aligned with plain blocks;
+     one without line numbers keeps the plain blocks' zero inset. */
   --slidev-code-padding: 4px 10px 4px 6px;   /* less space left of the numbers (was 10px) */
 }
 .slidev-layout.db-default .slidev-code-line-numbers .slidev-code code .line::before {

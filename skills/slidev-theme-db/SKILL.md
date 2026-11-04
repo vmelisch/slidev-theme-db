@@ -6,7 +6,8 @@ description: >-
   a clone of the TU Dresden / Dresden Database Research Group PowerPoint
   template. Covers the layouts (cover, default, two-cols-header, two-cols-grid),
   heading/sub-header spacing, lists, inline `{lang}` code highlighting, fenced
-  code blocks (captions, per-slide/per-block size, line numbers), template-styled
+  code blocks (captions, per-slide/per-block size, line numbers, `⟦name:text⟧`
+  code marks recoloured per click), template-styled
   tables (captions, equal/reach width helpers), the `::takeaway` callout for
   rhetorical questions / one-sentence summaries, Mermaid diagrams (brand styling
   and per-click reveal via gsap), the Comark curly-brace gotcha, and design
@@ -143,6 +144,8 @@ drops the grey pill background.
 ## Code blocks (fenced)
 
 - Highlighted; the box **shrinks to fit** the code.
+- **No ligatures** (inline or fenced): Fira Code's programming ligatures are
+  off, so `<>`, `<=`, `!=` show the characters as typed, not ◇ ≤ ≠.
 - No background and no left inset: the code text lines up with the text, captions
   and tables around it. `{class:'with-bg'}` adds a faint box with a 10px inset.
 - **Caption** above the block via the fence label:
@@ -173,6 +176,40 @@ drops the grey pill background.
 
   </div>
   ````
+
+### Code marks — recolour exact parts of a block at a click
+
+Line highlighting (`{2|3}`) works on whole lines. To recolour **part** of a line
+(a subquery, a pair of parentheses), mark it with `⟦name:text⟧` inside the
+fenced block. The theme's Shiki transformer (`setup/shiki.ts`) strips the
+markers and wraps `text` in `<span class="code-mark mark-name">`; the rendered
+(and copied) code is plain and looks unchanged:
+````md
+```sql
+SELECT name
+FROM employees
+WHERE salary > ⟦paren:(⟧
+  ⟦inner:SELECT AVG(salary)⟧
+  ⟦inner:FROM employees⟧
+⟦paren:)⟧;
+```
+````
+Recolour the text with a gsap timeline at the click you want. A mark can span
+several syntax-coloured tokens, so target the tokens inside it as well; each
+fades from its own syntax colour:
+```ts
+tl.step()
+  .to('.mark-inner, .mark-inner span', { color: '#1f8299', duration: 0.4 }) // --db-accent3
+  .step()
+  .to('.mark-paren, .mark-paren span', { color: '#f9c611', duration: 0.4 }) // --db-accent4
+  .step()
+```
+Gotchas:
+- A mark must stay **within one line**; mark each line separately (same name).
+- **Magic-move blocks** don't run Shiki transformers — marks only work in plain
+  fenced blocks (the markers would show literally).
+- A deck's own `setup/shiki.ts` that returns `transformers` **replaces** the
+  theme's list (Slidev merges setups shallowly) — re-add marks there if needed.
 
 ## GSAP addon (auto-loaded) — interaction gotchas
 
