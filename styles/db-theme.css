@@ -58,14 +58,21 @@
 
 /* Inline code "pills": slimmer so they don't bloat line height in bullets.
    (Slidev default is ~2px 6px / 0.9em.) Fenced code (pre > code) is untouched. */
-.slidev-layout.db-default :not(pre) > code {
+.slidev-layout.db-default :not(pre) > code,
+.slidev-layout :not(pre) > code,
+code.db-inline-code {
   padding: 1px 0;     /* no horizontal padding by default so it sits flush with text */
   font-size: 0.85em;
+  font-weight: 400;   /* regular weight — override Slidev's thin 300 default */
   line-height: 1;
   background: transparent !important; /* transparent by default */
+  font-variant-ligatures: none;
+  white-space: pre-wrap;
 }
 /* Opt-in faint background for inline code */
-.slidev-layout.db-default :not(pre) > code.with-bg {
+.slidev-layout.db-default :not(pre) > code.with-bg,
+.slidev-layout :not(pre) > code.with-bg,
+code.db-inline-code.with-bg {
   padding: 1px 4px;   /* add horizontal padding back for the background box */
   background: rgba(0, 0, 0, 0.03) !important;
 }
@@ -199,7 +206,7 @@
 }
 .slidev-layout.db-default .db-takeaway__body p { margin: 0; }
 .slidev-layout.db-default .db-takeaway__body strong { font-weight: 700; }
-.slidev-layout.db-default .db-takeaway__body code { font-weight: 500; }
+.slidev-layout.db-default .db-takeaway__body code { font-weight: 400; }
 
 /* Fenced code blocks: box only as wide as its content, not full slide width.
    fit-content on the WRAPPER so an optional caption + the code share one width.

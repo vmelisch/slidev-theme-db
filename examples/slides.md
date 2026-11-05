@@ -366,3 +366,25 @@ Here is an example of a table with a caption above and a footer below.
 
 [Based on the latest DB-Engines ranking]{.table-footer .numbered}
 
+---
+layout: default
+---
+
+# SQL Syntax Highlighting Verification
+
+## Inline Code & Auto-Detection
+
+- Untagged literals & constants: `NULL`, `TRUE`, `FALSE`, `UNKNOWN`
+- Untagged functions & keywords: `COUNT`, `AVG`, `SUM`, `MIN`, `MAX`, `COALESCE`, `EXPLAIN`, `ANALYZE`
+- Operators with no ligatures: `<>`, `<=`, `>=`, `!=`
+
+## Fenced Code Block
+
+```sql
+EXPLAIN ANALYZE
+SELECT COUNT(id), AVG(val), COALESCE(val, 0)
+FROM tbl
+WHERE active = TRUE AND deleted = FALSE AND status <> UNKNOWN;
+```
+
+
