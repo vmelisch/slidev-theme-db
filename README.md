@@ -37,16 +37,35 @@ Comark on; override any in your own headmatter.
 See [`examples/slides.md`](./examples/slides.md) for a small deck using the cover,
 two-column, and content layouts.
 
-## Authoring reference
+## Authoring reference (skills for AI agents)
 
-The repo ships a [`slidev-theme-db` skill](./skills/slidev-theme-db/SKILL.md) — an
-[Agent Skill](https://sli.dev) documenting every layout, the table/code helpers,
-and the gotchas. Claude Code applies it automatically when you write `theme: db`
-slides. To add it to a deck:
+The theme and the gsap addon each ship an Agent Skill: a reference that an AI
+coding agent (Claude Code, Gemini, …) reads before it writes slides.
+
+- [`slidev-theme-db`](./skills/slidev-theme-db/SKILL.md) (this package): every
+  layout, the table and code helpers (code marks, inline `{lang}` code), the
+  colours, and the gotchas.
+- `slidev-addon-gsap` (in the addon package): click-driven timelines (`useTl`),
+  element anchors, arrows, and morphs within and across slides.
+
+Copy both into the deck's repo, so the agent has them. Claude Code reads
+`.claude/skills/`; for other agents use their project skills folder (e.g.
+`.agents/skills/`):
 
 ```bash
-cp -r node_modules/slidev-theme-db/skills/slidev-theme-db .claude/skills/
+mkdir -p .claude/skills
+cp -r node_modules/slidev-theme-tud-db/skills/slidev-theme-db .claude/skills/
+cp -r node_modules/slidev-addon-gsap/skills/slidev-addon-gsap .claude/skills/
 ```
+
+Where the two disagree, the theme's skill wins for `theme: tud-db` decks. For
+example, don't add `addons: - gsap` to the headmatter, as the gsap skill says:
+the theme already loads the addon, and an `addons:` list replaces the theme's.
+
+**Converting PowerPoint decks:** the `pptx-to-slidev` conversion skill builds on
+these two skills. Copy both in before converting a deck; the conversion skill
+covers the workflow and the style, and leaves layouts, code and animation to
+them.
 
 ## Maintaining the theme
 

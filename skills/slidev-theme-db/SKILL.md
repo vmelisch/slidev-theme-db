@@ -2,7 +2,7 @@
 name: slidev-theme-db
 description: >-
   Author and edit Slidev slide markdown (.md) for decks that use the
-  slidev-theme-db theme (headmatter `theme: db` or `theme: slidev-theme-db`),
+  TU Dresden DB theme (package `slidev-theme-tud-db`, headmatter `theme: tud-db`),
   a clone of the TU Dresden / Dresden Database Research Group PowerPoint
   template. Covers the layouts (cover, default, two-cols-header, two-cols-grid),
   heading/sub-header spacing, lists, inline `{lang}` code highlighting, fenced
@@ -11,7 +11,7 @@ description: >-
   tables (captions, equal/reach width helpers), the `::takeaway` callout for
   rhetorical questions / one-sentence summaries, Mermaid diagrams (brand styling
   and per-click reveal via gsap), the Comark curly-brace gotcha, and design
-  tokens. Use whenever writing or modifying slides for a `theme: db` deck, or when
+  tokens. Use whenever writing or modifying slides for a `theme: tud-db` deck, or when
   asked about its layouts, tables, code styling, callouts, diagrams, or colours.
 ---
 
@@ -23,7 +23,7 @@ writing decks with it.
 
 > **Animations:** this theme **auto-loads the `slidev-addon-gsap` addon** (via its
 > `slidev.defaults.addons`), so click-driven timelines, reveals, arrows and
-> magic-move are available in every `theme: db` deck with no setup. The
+> magic-move are available in every `theme: tud-db` deck with no setup. The
 > **`slidev-addon-gsap` skill** is the reference for that API — use it whenever a
 > slide needs animation; the two skills compose.
 
@@ -32,7 +32,7 @@ writing decks with it.
 Headmatter (first `---` block):
 ```yaml
 ---
-theme: db          # short form; or the full name slidev-theme-db
+theme: tud-db      # short form; or the full name slidev-theme-tud-db
 ---
 ```
 The theme supplies these defaults (override in your own headmatter if needed):
@@ -262,7 +262,7 @@ cost real debugging time:
   (The gsap skill's *"no `pos()` wrapper needed"* means don't wrap each anchor in
   `pos(...)` — it does **not** mean you can skip calling `usePos()`.)
 - **`two.back` draws behind the slide's opaque content** and is invisible on a
-  `theme: db` slide — use `two.front` for arrows/shapes meant to be seen.
+  `theme: tud-db` slide — use `two.front` for arrows/shapes meant to be seen.
 - In a slide `<script setup>`, **`$clicks` / `$slidev` / `$nav` are auto-injected**
   — don't re-declare them (`const { $clicks } = useSlideContext()` → "already
   declared"); just use `$clicks`. And **don't `import { gsap } from 'gsap'`** —
@@ -273,7 +273,7 @@ cost real debugging time:
 
 ## Diagrams — Mermaid (and animating them)
 
-Slidev's **built-in Mermaid** (```` ```mermaid ````) works under `theme: db` and
+Slidev's **built-in Mermaid** (```` ```mermaid ````) works under `theme: tud-db` and
 is the right tool for graphs/trees (query plans, DAGs) — don't hand-draw boxes
 with divs + arrows. Colour nodes to brand with `classDef`/`class` using the
 design tokens below. Layout tips that bit us:

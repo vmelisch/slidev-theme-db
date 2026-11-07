@@ -28,6 +28,7 @@
     "scripts",
     "markdown.ts",
     "setup",
+    "skills",
     "styles",
     "vite.config.ts",
     "README.md"
