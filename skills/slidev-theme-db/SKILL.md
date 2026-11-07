@@ -137,13 +137,45 @@ Tag inline code with `{lang}` to syntax-highlight it:
 - e.g., `{json} {"name": "Daniel Krueger", "salary": 4867}`
 - `{sql} profile ->> 'city'`
 ```
-Languages: `json`, `yaml`, `sql`, `c`, `cpp`, `python`. Plain `` `code` `` (no
-tag) is left as-is. Inline code in table cells/headings keeps its colours but
-drops the grey pill background.
+Languages: `json`, `yaml`, `sql`, `c`, `cpp`, `python`. Inline code in table
+cells/headings keeps its colours but drops the grey pill background.
+
+Untagged inline code is highlighted only when it is clearly one of:
+- **SQL**: it contains an UPPERCASE SQL word (`` `NULL` ``, `` `GROUP BY` ``,
+  `` `TRUE AND UNKNOWN = UNKNOWN` ``) or is a lone comparison operator
+  (`` `<>` ``, `` `<=>` ``). Lowercase words never trigger it, so code from other
+  languages (`` `std::set` ``, `` `{lines:true}` ``) stays plain; tag lowercase
+  SQL explicitly: `` `{sql} sum(revenue)` ``.
+- **a function call**: `` `next()` ``, `` `child.next()` `` — the name in
+  function blue.
+
+Anything else stays plain.
+
+## Code colours (SQL)
+
+Inline and fenced code share one grammar and palette (`setup/shiki.ts`):
+catppuccin-latte, **upright** throughout, with SQL adjusted so each kind of word
+has its own colour:
+
+| what | colour | e.g. |
+| --- | --- | --- |
+| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE` |
+| functions | blue `#1e66f5` | `COUNT`, `ceil(x)`, any `name(` |
+| constants | orange `#fe640b` | `NULL`, `TRUE`, `FALSE`, `UNKNOWN` |
+| numbers | green `#059669` | `750`, `3.14` |
+| strings | green `#40a02b` | `'flop'` |
+| operators | teal `#179299` | `=`, `<>`, `>=` |
+| comments | grey `#7c7f93` | `-- default branch` |
+
+These are grammar rules, so they never apply inside comments or strings: the
+`NULL` in `-- gives NULL` stays comment grey.
 
 ## Code blocks (fenced)
 
 - Highlighted; the box **shrinks to fit** the code.
+- A block inside a `data-morph` element (cross-slide morph) never scrolls:
+  while the morph resizes its box, the code overflows instead of flashing a
+  scrollbar.
 - **No ligatures** (inline or fenced): Fira Code's programming ligatures are
   off, so `<>`, `<=`, `!=` show the characters as typed, not ◇ ≤ ≠.
 - No background and no left inset: the code text lines up with the text, captions

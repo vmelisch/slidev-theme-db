@@ -215,6 +215,14 @@ code.db-inline-code.with-bg {
   width: fit-content;
   max-width: 100%;
 }
+/* Code that morphs to the next slide (data-morph, from the gsap addon): while
+   the morph animates its box from the other slide's size, the code can be
+   wider than the box for a moment, and Slidev's `overflow: auto` on code
+   blocks would flash a scrollbar. Let it overflow instead; it fits again once
+   the morph ends. */
+.slidev-layout [data-morph] .slidev-code {
+  overflow: visible;
+}
 /* Default to transparent background for multi-line blocks, overriding Shiki */
 .slidev-layout.db-default pre.slidev-code {
   background: transparent !important;

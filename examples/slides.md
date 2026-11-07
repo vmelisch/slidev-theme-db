@@ -377,14 +377,16 @@ layout: default
 - Untagged literals & constants: `NULL`, `TRUE`, `FALSE`, `UNKNOWN`
 - Untagged functions & keywords: `COUNT`, `AVG`, `SUM`, `MIN`, `MAX`, `COALESCE`, `EXPLAIN`, `ANALYZE`
 - Operators with no ligatures: `<>`, `<=`, `>=`, `!=`
+- Phrases keep their spaces: `TRUE AND UNKNOWN = UNKNOWN`, `IS NOT NULL`, `WHERE x <  750`, `a  b`
+- Lowercase stays plain, calls are blue: `{lines:true}`, `std::set`, `next()`, `f(a < b)`
 
 ## Fenced Code Block
 
 ```sql
 EXPLAIN ANALYZE
-SELECT COUNT(id), AVG(val), COALESCE(val, 0)
+SELECT COUNT(id), AVG(val), COALESCE(val, 0), ceil(val) -- NULL in a comment stays grey
 FROM tbl
-WHERE active = TRUE AND deleted = FALSE AND status <> UNKNOWN;
+WHERE active = TRUE AND deleted IS NOT NULL AND status <> UNKNOWN AND note <> 'NULL';
 ```
 
 
