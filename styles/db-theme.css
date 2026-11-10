@@ -436,8 +436,9 @@ code.db-inline-code.with-bg {
   color: var(--db-text);
 }
 
-/* Inline code inside tables AND headings: keep the syntax colors but drop the
-   gray "pill" background/padding so it reads like plain text. */
+/* Inline code inside tables AND headings: drop the gray "pill"
+   background/padding so it reads like plain text (tables keep the syntax
+   colours; headings don't, see below). */
 .slidev-layout.db-default th code,
 .slidev-layout.db-default td code,
 .slidev-layout.db-default h1 code,
@@ -446,11 +447,17 @@ code.db-inline-code.with-bg {
   background: transparent;
   padding: 0;
 }
-/* In a heading, code takes the heading's size and weight (the template's
-   "1.1 DISTINCT" is bold mono), not the light, smaller inline-code style. */
+/* In a heading, code takes the heading's size, weight and colour (the
+   template's "1.1 DISTINCT" is bold mono in the heading's blue), not the
+   light, smaller inline-code style, nor syntax colours: the mono font sets it
+   apart enough. (Shiki colours its tokens with inline styles, hence the
+   !important.) */
 .slidev-layout.db-default :is(h1, h2, h3) code {
   font-size: 1em;
   font-weight: inherit;
+}
+.slidev-layout.db-default :is(h1, h2, h3) :is(code, code span) {
+  color: inherit !important;
 }
 
 /* Inline math: KaTeX's default 1.21em makes capitals 15% taller than Noto

@@ -57,10 +57,15 @@ export const codeMarks = {
 //  - A name right before `(` is a function call: `ceil(x)`, `jsonb_agg(…)`;
 //    so are common function names on their own, as in an inline `AVG` (the
 //    grammar knows functions only before `(`).
+//  - The join words are keywords on their own too, as in an inline `LEFT` or
+//    in `LEFT JOIN LATERAL` (the grammar knows INNER, LEFT, RIGHT, FULL, OUTER
+//    and NATURAL only as part of `… JOIN`, and LATERAL not at all).
 //    These rules come last, so the grammar's own reading of a word, such as
-//    the keyword in `IN (` or the type in `DECIMAL(10, 2)`, takes precedence.
+//    the keyword in `IN (` or the type in `DECIMAL(10, 2)`, takes precedence;
+//    and `left(name, 3)` stays a function call.
 const CONSTANTS = 'NULL|TRUE|FALSE|UNKNOWN'
 const FUNCTIONS = 'COUNT|AVG|SUM|MIN|MAX|COALESCE|ROUND|ABS|CEIL|FLOOR|SUBSTRING|TRIM|UPPER|LOWER|CONCAT'
+const JOIN_WORDS = 'INNER|LEFT|RIGHT|FULL|OUTER|NATURAL|LATERAL'
 const SQL_RULES_FIRST = [
   {
     match: `(?i:\\b(IS(?:\\s+NOT)?|NOT)\\s+(${CONSTANTS})\\b)`,
@@ -72,6 +77,7 @@ const SQL_RULES_FIRST = [
 const SQL_RULES_LAST = [
   { match: '\\b[A-Za-z_][A-Za-z0-9_]*(?=\\()', name: 'support.function.sql' },
   { match: `(?i:\\b(?:${FUNCTIONS})\\b)`, name: 'support.function.sql' },
+  { match: `(?i:\\b(?:${JOIN_WORDS})\\b)`, name: 'keyword.other.sql' },
 ]
 
 // Colours: catppuccin-latte (light) and -mocha (dark), upright throughout (the

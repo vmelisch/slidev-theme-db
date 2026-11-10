@@ -138,7 +138,9 @@ Tag inline code with `{lang}` to syntax-highlight it:
 - `{sql} profile ->> 'city'`
 ```
 Languages: `json`, `yaml`, `sql`, `c`, `cpp`, `python`. Inline code in table
-cells/headings keeps its colours but drops the grey pill background.
+cells and headings drops the grey pill background; in table cells it keeps its
+colours, in headings it takes the heading's colour (mono, but not
+syntax-coloured).
 
 Untagged inline code is highlighted only when it is clearly one of:
 - **SQL**: it contains an UPPERCASE SQL word (`` `NULL` ``, `` `GROUP BY` ``,
@@ -159,7 +161,7 @@ has its own colour:
 
 | what | colour | e.g. |
 | --- | --- | --- |
-| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE` |
+| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE`, `LEFT`, `LATERAL` |
 | functions | blue `#1e66f5` | `COUNT`, `ceil(x)`, any `name(` |
 | constants | orange `#fe640b` | `NULL`, `TRUE`, `FALSE`, `UNKNOWN` |
 | numbers | green `#059669` | `750`, `3.14` |
