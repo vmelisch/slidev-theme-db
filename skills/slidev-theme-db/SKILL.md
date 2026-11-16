@@ -161,7 +161,7 @@ has its own colour:
 
 | what | colour | e.g. |
 | --- | --- | --- |
-| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE`, `LEFT`, `LATERAL` |
+| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE`, `LEFT`, `LATERAL`, `EXCEPT ALL`, `ANY` |
 | functions | blue `#1e66f5` | `COUNT`, `ceil(x)`, any `name(` |
 | constants | orange `#fe640b` | `NULL`, `TRUE`, `FALSE`, `UNKNOWN` |
 | numbers | green `#059669` | `750`, `3.14` |

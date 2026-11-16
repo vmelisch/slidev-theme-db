@@ -60,12 +60,17 @@ export const codeMarks = {
 //  - The join words are keywords on their own too, as in an inline `LEFT` or
 //    in `LEFT JOIN LATERAL` (the grammar knows INNER, LEFT, RIGHT, FULL, OUTER
 //    and NATURAL only as part of `… JOIN`, and LATERAL not at all).
+//  - ALL, ANY and SOME are keywords, as in `INTERSECT ALL`, `EXCEPT ALL` and
+//    `> ANY (…)` (the grammar knows ALL only in `UNION ALL` and `SELECT ALL`,
+//    and ANY and SOME not at all). They are never function names, so this rule
+//    comes before the function call rule: `ANY(…)` stays a keyword.
 //    These rules come last, so the grammar's own reading of a word, such as
 //    the keyword in `IN (` or the type in `DECIMAL(10, 2)`, takes precedence;
 //    and `left(name, 3)` stays a function call.
 const CONSTANTS = 'NULL|TRUE|FALSE|UNKNOWN'
 const FUNCTIONS = 'COUNT|AVG|SUM|MIN|MAX|COALESCE|ROUND|ABS|CEIL|FLOOR|SUBSTRING|TRIM|UPPER|LOWER|CONCAT'
 const JOIN_WORDS = 'INNER|LEFT|RIGHT|FULL|OUTER|NATURAL|LATERAL'
+const QUANTIFIERS = 'ALL|ANY|SOME'
 const SQL_RULES_FIRST = [
   {
     match: `(?i:\\b(IS(?:\\s+NOT)?|NOT)\\s+(${CONSTANTS})\\b)`,
@@ -75,6 +80,7 @@ const SQL_RULES_FIRST = [
   { match: '(?i:\\b(?:EXPLAIN|ANALYZE)\\b)', name: 'keyword.other.sql' },
 ]
 const SQL_RULES_LAST = [
+  { match: `(?i:\\b(?:${QUANTIFIERS})\\b)`, name: 'keyword.other.sql' },
   { match: '\\b[A-Za-z_][A-Za-z0-9_]*(?=\\()', name: 'support.function.sql' },
   { match: `(?i:\\b(?:${FUNCTIONS})\\b)`, name: 'support.function.sql' },
   { match: `(?i:\\b(?:${JOIN_WORDS})\\b)`, name: 'keyword.other.sql' },
