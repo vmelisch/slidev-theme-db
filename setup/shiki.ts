@@ -53,7 +53,13 @@ export const codeMarks = {
 //  - NULL, TRUE, FALSE and UNKNOWN are constants (the grammar knows only NULL,
 //    as a keyword, and reads `IS NOT NULL` as a single keyword: here the
 //    keyword part and the constant are told apart).
-//  - EXPLAIN and ANALYZE are keywords.
+//  - EXPLAIN, ANALYZE and MATERIALIZED are keywords (MATERIALIZED as in
+//    `WITH x AS NOT MATERIALIZED (…)`).
+//  - Common column names are plain text: the grammar's keyword list is
+//    T-SQL's and holds words such as `value`, `name`, `location` or `year`,
+//    which PostgreSQL queries use as names. Right before `(` they are function
+//    calls, as any name. (A name after a `.`, as in `r.name`, is plain in the
+//    grammar already.)
 //  - A name right before `(` is a function call: `ceil(x)`, `jsonb_agg(…)`;
 //    so are common function names on their own, as in an inline `AVG` (the
 //    grammar knows functions only before `(`).
@@ -71,13 +77,21 @@ const CONSTANTS = 'NULL|TRUE|FALSE|UNKNOWN'
 const FUNCTIONS = 'COUNT|AVG|SUM|MIN|MAX|COALESCE|ROUND|ABS|CEIL|FLOOR|SUBSTRING|TRIM|UPPER|LOWER|CONCAT'
 const JOIN_WORDS = 'INNER|LEFT|RIGHT|FULL|OUTER|NATURAL|LATERAL'
 const QUANTIFIERS = 'ALL|ANY|SOME'
+// Words of the grammar's keyword list that are no keywords in a PostgreSQL
+// query but often name columns. (`PRIMARY KEY` and `CREATE TYPE` at the start
+// of a line stay keywords: the grammar has rules of their own for them.)
+const COLUMN_NAMES = 'name|value|location|status|state|role|type|key|path|size|data|message|profile|description|target'
+  + '|year|quarter|month|week|day|hour|minute|second'
 const SQL_RULES_FIRST = [
   {
     match: `(?i:\\b(IS(?:\\s+NOT)?|NOT)\\s+(${CONSTANTS})\\b)`,
     captures: { 1: { name: 'keyword.other.sql' }, 2: { name: 'constant.language.sql' } },
   },
   { match: `(?i:\\b(?:${CONSTANTS})\\b)`, name: 'constant.language.sql' },
-  { match: '(?i:\\b(?:EXPLAIN|ANALYZE)\\b)', name: 'keyword.other.sql' },
+  { match: '(?i:\\b(?:EXPLAIN|ANALYZE|MATERIALIZED)\\b)', name: 'keyword.other.sql' },
+  { match: `(?i:\\b(?:${COLUMN_NAMES})(?=\\())`, name: 'support.function.sql' },
+  // no name: plain text
+  { match: `(?i:\\b(?:${COLUMN_NAMES})\\b)` },
 ]
 const SQL_RULES_LAST = [
   { match: `(?i:\\b(?:${QUANTIFIERS})\\b)`, name: 'keyword.other.sql' },

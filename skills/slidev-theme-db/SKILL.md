@@ -161,16 +161,22 @@ has its own colour:
 
 | what | colour | e.g. |
 | --- | --- | --- |
-| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE`, `LEFT`, `LATERAL`, `EXCEPT ALL`, `ANY` |
+| keywords | purple `#8839ef` | `SELECT`, `IS NOT`, `EXPLAIN ANALYZE`, `LEFT`, `LATERAL`, `EXCEPT ALL`, `ANY`, `MATERIALIZED` |
 | functions | blue `#1e66f5` | `COUNT`, `ceil(x)`, any `name(` |
 | constants | orange `#fe640b` | `NULL`, `TRUE`, `FALSE`, `UNKNOWN` |
 | numbers | green `#059669` | `750`, `3.14` |
 | strings | green `#40a02b` | `'flop'` |
 | operators | teal `#179299` | `=`, `<>`, `>=` |
 | comments | grey `#7c7f93` | `-- default branch` |
+| names | plain | `sales`, `r.name`, `value`, `location`, `year` |
 
 These are grammar rules, so they never apply inside comments or strings: the
 `NULL` in `-- gives NULL` stays comment grey.
+
+Shiki's SQL grammar borrows T-SQL's keyword list, which holds many words that
+name columns; the common ones (`name`, `value`, `location`, `status`, `type`,
+`key`, `year`, `month`, `day`, … see `COLUMN_NAMES` in `setup/shiki.ts`) are
+plain here. Another column name that shows up purple belongs in that list.
 
 ## Code blocks (fenced)
 
